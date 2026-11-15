@@ -1,0 +1,44 @@
+version = "1.0"
+artifacts = ["/app/metrics.csv", "/app/stats.csv"]
+
+[task]
+name = "afterquery/autonomic-hrv-lmm"
+description = "Process 250 Hz ECG recordings across baseline and nociceptive pain conditions using Butterworth bandpass filtering, Welch QRS-band SQI window gating, PCHIP ectopic beat interpolation, time- and Parseval-normalized Lomb-Scargle frequency-domain HRV extraction, and REML linear mixed-effects modeling for sex-specific autonomic reactivity."
+authors = [{ name = "Dilek Ece Topbas", email = "dilekecetpbs@outlook.com" }]
+keywords = ["electrocardiography", "heart-rate-variability", "lomb-scargle", "signal-quality-index", "nociceptive-pain", "mixed-effects-model"]
+
+[metadata]
+author_name = "Dilek Ece Topbas"
+author_email = "dilekecetpbs@outlook.com"
+author_organization = "Independent Biomedical Engineer"
+author_profile = "https://www.linkedin.com/in/dilek-ece-topbas-9208101b6"
+conflicts_of_interest = "none"
+domain = "life-sciences"
+field = "medicine"
+subfield = "Autonomic Nervous System Physiology and Electrocardiographic Signal Processing"
+subcategory = "Medicine & Health Sciences"
+difficulty = "hard"
+category = "Science"
+expert_time_estimate_hours = 4.0
+relevant_experience = "MSc in Biomedical Engineering specializing in cardiorespiratory physiological signal processing (ECG, HRV), signal quality indexing, and linear mixed-effects modeling for sex-specific nociceptive pain biomarkers."
+difficulty_explanation = "Requires multi-stage ECG conditioning (zero-phase Butterworth filtering, Welch PSD QRS-band SQI epoch rejection, refractory R-peak detection without cross-window bridging, rolling-median ectopic beat PCHIP interpolation), Parseval-normalized Lomb-Scargle spectral integration on unevenly sampled NN series, and REML linear mixed-effects interaction modeling."
+solution_explanation = "Applies a 5-20 Hz 4th-order zero-phase Butterworth bandpass filter, rejects 10-second windows with Welch QRS-band SQI < 0.55, extracts contiguous clean-window R-peaks, interpolates ectopic beats via PCHIP, computes mean HR, SDNN, RMSSD, and Parseval-scaled Lomb-Scargle HF power (0.15-0.40 Hz), and fits four subject-random-intercept REML linear mixed-effects models."
+verification_explanation = "Runs an isolated pytest suite verifying output CSV creation, exact column schemas and sorting, Welch SQI clean window ratios, physiological HRV bounds, significant vagal withdrawal under nociceptive pain, and sex-by-condition interaction effects."
+tags = ["electrocardiography", "heart-rate-variability", "lomb-scargle", "signal-quality-index", "nociceptive-pain", "mixed-effects-model"]
+
+[verifier]
+timeout_sec = 600.0
+environment_mode = "separate"
+
+[verifier.environment]
+network_mode = "no-network"
+
+[agent]
+timeout_sec = 28800.0
+
+[environment]
+build_timeout_sec = 600.0
+network_mode = "public"
+cpus = 2
+memory = "4G"
+storage = "10G"
